@@ -241,4 +241,26 @@ stm_err_t GPIO_OUTPUT_CONFIG(GPIO_PORTS ePort, uint8_t nPin, OUTPUT_MODE eMode, 
 	    return STM_OK;
 }
 
+stm_err_t GPIO_OUTPUT_WRITE(GPIO_PORTS ePort, uint8_t nPin, logicLevel_t logicLevel){
+    if (nPin > 15)
+    	return STM_ERR_INVALID_SIZE;
 
+    volatile uint32_t* pPortRegister;
+
+    switch(ePort){
+    	case PORTA: pPortRegister = &GPIOA_BSRR; break;
+    	case PORTB: pPortRegister = &GPIOB_BSRR; break;
+    	case PORTC: pPortRegister = &GPIOC_BSRR; break;
+
+    	default: return STM_ERR_INVALID_ARG ;
+    }
+
+    switch(logicLevel){
+    	case LOW: 	*pPortRegister = (1 << (nPin+16)); break;
+    	case HIGH: 	*pPortRegister = (1 << (nPin)); break;
+
+    	default: return STM_ERR_INVALID_ARG ;
+    }
+
+    return STM_OK;
+}

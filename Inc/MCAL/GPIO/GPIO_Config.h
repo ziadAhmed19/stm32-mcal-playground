@@ -46,5 +46,9 @@ typedef enum {
 	ALT_FN_OPEN_DRAIN 	= 3
 }OUTPUT_CNF;
 
+typedef enum{
+	LOW,
+	HIGH
+}logicLevel_t;
 
 #endif /* MCAL_GPIO_GPIO_CONFIG_H_ */
